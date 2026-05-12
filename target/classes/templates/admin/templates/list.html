@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>模板后台 - ResumeForge</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav class="nav">
+    <div class="brand">ResumeForge Admin</div>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}">返回控制台</a>
+        <a class="btn small" th:href="@{/admin/templates/new}">新增模板</a>
+        <form th:action="@{/logout}" method="post" class="inline-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button class="link-button" type="submit">退出</button>
+        </form>
+    </div>
+</nav>
+<main class="dashboard-wrap">
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h1>模板管理后台</h1>
+                <p>可定期新增模板、修改模板 HTML、调整主题色、停用不想展示的模板。</p>
+            </div>
+            <a class="btn" th:href="@{/admin/templates/new}">新增模板</a>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr><th>ID</th><th>模板</th><th>编码</th><th>主题色</th><th>状态</th><th>更新时间</th><th>操作</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="tpl : ${templates}">
+                    <td th:text="${tpl.id}">1</td>
+                    <td><strong th:text="${tpl.name}">模板名</strong><br><span class="muted" th:text="${tpl.description}">说明</span></td>
+                    <td><code th:text="${tpl.templateKey}">modern</code></td>
+                    <td><span class="color-pill" th:style="'background:' + ${tpl.accentColor}"></span><span th:text="${tpl.accentColor}">#2563eb</span></td>
+                    <td><span th:class="${tpl.active} ? 'status ok' : 'status off'" th:text="${tpl.active ? '启用' : '停用'}">启用</span></td>
+                    <td th:text="${#temporals.format(tpl.updatedAt, 'yyyy-MM-dd HH:mm')}">2026-01-01</td>
+                    <td class="actions">
+                        <a class="btn tiny ghost" th:href="@{/admin/templates/{id}/edit(id=${tpl.id})}">编辑</a>
+                        <form th:action="@{/admin/templates/{id}/toggle(id=${tpl.id})}" method="post" class="inline-form">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button class="btn tiny danger" type="submit" th:text="${tpl.active ? '停用' : '启用'}">停用</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

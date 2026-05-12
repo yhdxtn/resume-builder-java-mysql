@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑模板 - ResumeForge</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav class="nav">
+    <div class="brand">ResumeForge Admin</div>
+    <div class="nav-links">
+        <a th:href="@{/admin/templates}">模板列表</a>
+        <a th:href="@{/dashboard}">控制台</a>
+    </div>
+</nav>
+<main class="editor-wrap admin-edit-wrap">
+    <section class="panel editor-panel">
+        <div class="panel-head sticky-head">
+            <div>
+                <h1 th:text="${mode == 'new' ? '新增模板' : '编辑模板'}">编辑模板</h1>
+                <p>模板 HTML 支持占位符，系统在预览和 PDF 下载时自动替换为用户简历内容。</p>
+            </div>
+            <button class="btn" form="templateForm" type="submit">保存模板</button>
+        </div>
+        <form id="templateForm" th:action="${mode == 'new'} ? @{/admin/templates/new} : @{/admin/templates/{id}/edit(id=${form.id})}" th:object="${form}" method="post" class="resume-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <div class="form-section">
+                <h2>基础信息</h2>
+                <div class="form-grid">
+                    <label>模板编码<input th:field="*{templateKey}" placeholder="例如：modern-blue"><span class="error" th:if="${#fields.hasErrors('templateKey')}" th:errors="*{templateKey}"></span></label>
+                    <label>模板名称<input th:field="*{name}" placeholder="例如：现代双栏模板"><span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></label>
+                    <label>主题色<input th:field="*{accentColor}" type="color"></label>
+                    <label class="check-line"><input th:field="*{active}" type="checkbox"> 启用模板</label>
+                </div>
+                <label>模板说明<input th:field="*{description}" placeholder="简短说明模板适合什么岗位"></label>
+            </div>
+            <div class="form-section">
+                <h2>可用占位符</h2>
+                <div class="placeholder-box">
+                    {{accentColor}} {{fullName}} {{jobTitle}} {{contactLine}} {{contactDot}} {{contactStack}} {{avatarBlock}}
+{{summarySection}} {{educationSection}} {{experienceSection}} {{projectsSection}} {{skillsSection}} {{certificatesSection}} {{awardsSection}}
+兼容旧占位符：{{phone}} {{email}} {{location}} {{website}} {{summary}} {{education}} {{experience}} {{projects}} {{skills}} {{certificates}} {{awards}}
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>模板 HTML</h2>
+                <label><textarea class="code-editor" th:field="*{htmlContent}" rows="28"></textarea><span class="error" th:if="${#fields.hasErrors('htmlContent')}" th:errors="*{htmlContent}"></span></label>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

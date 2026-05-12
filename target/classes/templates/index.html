@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ResumeForge 简历生成系统</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav class="nav glass">
+    <div class="brand">ResumeForge</div>
+    <div class="nav-links">
+        <a href="#templates">模板</a>
+        <a th:href="@{/login}">登录</a>
+        <a class="btn small" th:href="@{/register}">免费注册</a>
+    </div>
+</nav>
+<section class="hero-section">
+    <div class="hero-copy">
+        <div class="pill">Java + MySQL · PDF Export · Admin Templates</div>
+        <h1>在线编辑简历，选择模板，一键导出 PDF</h1>
+        <p>支持登录后编辑、后台定期更新模板、10 个默认模板、简历预览与 PDF 下载。适合毕业设计、课程设计和企业内部简历库改造。</p>
+        <div class="hero-actions">
+            <a class="btn" th:href="@{/register}">开始制作</a>
+            <a class="btn ghost" th:href="@{/login}">已有账号登录</a>
+        </div>
+    </div>
+    <div class="hero-card">
+        <div class="mock-toolbar"><span></span><span></span><span></span></div>
+        <div class="resume-mini">
+            <div class="mini-head"></div>
+            <div class="mini-line w80"></div>
+            <div class="mini-line w60"></div>
+            <div class="mini-grid"><div></div><div></div></div>
+            <div class="mini-line w90"></div>
+            <div class="mini-line w70"></div>
+            <div class="mini-line w85"></div>
+        </div>
+    </div>
+</section>
+<section id="templates" class="section-wrap">
+    <div class="section-head">
+        <h2>默认 10 个模板</h2>
+        <p>管理员可在后台新增、修改、停用模板。模板 HTML 中支持占位符，例如 {{fullName}}、{{experience}}。</p>
+    </div>
+    <div class="template-grid">
+        <div class="template-card" th:each="tpl : ${templates}">
+            <div class="template-color" th:style="'background:' + ${tpl.accentColor}"></div>
+            <h3 th:text="${tpl.name}">模板名称</h3>
+            <p th:text="${tpl.description}">模板说明</p>
+        </div>
+    </div>
+</section>
+</body>
+</html>

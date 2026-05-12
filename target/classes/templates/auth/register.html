@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册 - ResumeForge</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="auth-bg">
+<div class="auth-card">
+    <a class="back-link" th:href="@{/}">← 返回首页</a>
+    <h1>创建账号</h1>
+    <p class="muted">注册后可保存简历信息，随时更换模板并下载 PDF。</p>
+    <form th:action="@{/register}" th:object="${form}" method="post" class="form-stack">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <label>用户名 / 邮箱
+            <input th:field="*{username}" placeholder="建议使用邮箱" required>
+            <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        </label>
+        <label>姓名
+            <input th:field="*{fullName}" placeholder="例如：张三">
+        </label>
+        <label>密码
+            <input th:field="*{password}" type="password" placeholder="至少 6 位" required>
+            <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </label>
+        <button class="btn full" type="submit">注册</button>
+    </form>
+    <p class="center">已有账号？<a th:href="@{/login}">去登录</a></p>
+</div>
+</body>
+</html>

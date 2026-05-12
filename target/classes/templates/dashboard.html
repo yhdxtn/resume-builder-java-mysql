@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>控制台 - ResumeForge</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav class="nav">
+    <div class="brand">ResumeForge</div>
+    <div class="nav-links">
+        <a th:href="@{/resume/edit}">编辑简历</a>
+        <a th:href="@{/resume/preview}">预览</a>
+        <a th:if="${isAdmin}" th:href="@{/admin/templates}">后台模板</a>
+        <form th:action="@{/logout}" method="post" class="inline-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button class="link-button" type="submit">退出</button>
+        </form>
+    </div>
+</nav>
+<main class="dashboard-wrap">
+    <section class="welcome-card">
+        <div>
+            <div class="pill">欢迎回来</div>
+            <h1 th:text="${user.fullName != null && !user.fullName.isBlank() ? user.fullName : user.username}">用户</h1>
+            <p class="muted">继续完善简历内容，选择模板后可预览并下载 PDF。</p>
+        </div>
+        <div class="hero-actions">
+            <a class="btn" th:href="@{/resume/edit}">编辑简历</a>
+            <a class="btn ghost" th:href="@{/resume/download}">下载 PDF</a>
+        </div>
+    </section>
+
+    <section class="stat-grid">
+        <div class="stat-card"><span>当前模板</span><strong th:text="${profile.template != null ? profile.template.name : '未选择'}">现代双栏模板</strong></div>
+        <div class="stat-card"><span>求职岗位</span><strong th:text="${profile.jobTitle != null && !profile.jobTitle.isBlank() ? profile.jobTitle : '待填写'}">Java 开发</strong></div>
+        <div class="stat-card"><span>可用模板</span><strong th:text="${#lists.size(templates)}">10</strong></div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head">
+            <h2>模板库</h2>
+            <p>点击“编辑简历”后可以切换模板。</p>
+        </div>
+        <div class="template-grid small-grid">
+            <div class="template-card" th:each="tpl : ${templates}">
+                <div class="template-color" th:style="'background:' + ${tpl.accentColor}"></div>
+                <h3 th:text="${tpl.name}">模板名称</h3>
+                <p th:text="${tpl.description}">模板说明</p>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录 - ResumeForge</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="auth-bg">
+<div class="auth-card">
+    <a class="back-link" th:href="@{/}">← 返回首页</a>
+    <h1>登录</h1>
+    <p class="muted">登录后才能编辑和下载简历。</p>
+    <div class="alert success" th:if="${registered}">注册成功，请登录。</div>
+    <div class="alert danger" th:if="${param.error}">用户名或密码错误。</div>
+    <form th:action="@{/login}" method="post" class="form-stack">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <label>用户名 / 邮箱
+            <input name="username" placeholder="请输入用户名" required>
+        </label>
+        <label>密码
+            <input name="password" type="password" placeholder="请输入密码" required>
+        </label>
+        <button class="btn full" type="submit">登录</button>
+    </form>
+    <div class="hint-box">
+        <strong>管理员账号：</strong> admin / admin123<br>
+        <strong>普通用户：</strong> 可自行注册
+    </div>
+    <p class="center">没有账号？<a th:href="@{/register}">立即注册</a></p>
+</div>
+</body>
+</html>

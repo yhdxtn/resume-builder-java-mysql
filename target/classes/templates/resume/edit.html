@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑简历 - ResumeForge</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav class="nav">
+    <div class="brand">ResumeForge</div>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}">控制台</a>
+        <a th:href="@{/resume/preview}">预览</a>
+        <form th:action="@{/logout}" method="post" class="inline-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button class="link-button" type="submit">退出</button>
+        </form>
+    </div>
+</nav>
+<main class="editor-wrap">
+    <section class="panel editor-panel">
+        <div class="panel-head sticky-head">
+            <div>
+                <h1>编辑简历</h1>
+                <p>每个模块都可以勾选显示，也可以只保存内容但不放进简历。头像支持上传后自动进入预览和 PDF。</p>
+            </div>
+            <div class="hero-actions">
+                <button class="btn" form="resumeForm" type="submit">保存并预览</button>
+                <a class="btn ghost" th:href="@{/resume/download}">下载 PDF</a>
+            </div>
+        </div>
+
+        <div class="alert danger" th:if="${error}" th:text="${error}"></div>
+
+        <form id="resumeForm" th:action="@{/resume/edit}" th:object="${form}" method="post" enctype="multipart/form-data" class="resume-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <div class="form-section">
+                <h2>选择模板</h2>
+                <div class="template-picker">
+                    <label class="tpl-radio" th:each="tpl : ${templates}">
+                        <input type="radio" th:field="*{templateId}" th:value="${tpl.id}">
+                        <span class="dot" th:style="'background:' + ${tpl.accentColor}"></span>
+                        <strong th:text="${tpl.name}">模板</strong>
+                        <small th:text="${tpl.description}">说明</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title-row">
+                    <h2>头像与基本信息</h2>
+                    <label class="switch-line"><input th:field="*{showAvatar}" type="checkbox"> 简历中显示头像</label>
+                </div>
+                <div class="avatar-editor">
+                    <div class="avatar-preview" th:classappend="${profile.avatarPath == null} ? ' empty' : ''">
+                        <img id="avatarPreview" th:if="${profile.avatarPath != null}" th:src="@{${profile.avatarPath}}" alt="头像预览">
+                        <span th:if="${profile.avatarPath == null}">未上传</span>
+                    </div>
+                    <div class="avatar-actions">
+                        <label>上传头像
+                            <input id="avatarInput" name="avatarFile" type="file" accept="image/*">
+                        </label>
+                        <label class="check-line remove-line"><input th:field="*{removeAvatar}" type="checkbox"> 删除当前头像</label>
+                        <p class="muted">建议上传正方形证件照或职业头像，JPG / PNG / WebP 都可以。</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <label>姓名<input th:field="*{fullName}" placeholder="张三"></label>
+                    <label>求职岗位<input th:field="*{jobTitle}" placeholder="Java 开发工程师"></label>
+                    <label>手机<input th:field="*{phone}" placeholder="13800000000"></label>
+                    <label>邮箱<input th:field="*{email}" placeholder="email@example.com"></label>
+                    <label>城市<input th:field="*{location}" placeholder="云南文山"></label>
+                    <label>个人主页 / GitHub<input th:field="*{website}" placeholder="github.com/xxx"></label>
+                </div>
+                <div class="option-grid">
+                    <label class="switch-line"><input th:field="*{showPhone}" type="checkbox"> 显示手机</label>
+                    <label class="switch-line"><input th:field="*{showEmail}" type="checkbox"> 显示邮箱</label>
+                    <label class="switch-line"><input th:field="*{showLocation}" type="checkbox"> 显示城市</label>
+                    <label class="switch-line"><input th:field="*{showWebsite}" type="checkbox"> 显示个人主页 / GitHub</label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title-row">
+                    <h2>简历内容模块</h2>
+                    <span class="muted">不勾选的模块不会出现在预览和 PDF 中。</span>
+                </div>
+
+                <div class="optional-block" data-optional-block>
+                    <div class="optional-head">
+                        <label class="switch-line"><input th:field="*{showSummary}" type="checkbox" data-section-toggle> 显示个人优势 / 自我评价</label>
+                    </div>
+                    <div class="optional-body" data-section-body>
+                        <textarea th:field="*{summary}" rows="5" placeholder="概括你的优势、经历、岗位匹配点。"></textarea>
+                    </div>
+                </div>
+
+                <div class="optional-block" data-optional-block>
+                    <div class="optional-head">
+                        <label class="switch-line"><input th:field="*{showEducation}" type="checkbox" data-section-toggle> 显示教育背景</label>
+                    </div>
+                    <div class="optional-body" data-section-body>
+                        <textarea th:field="*{education}" rows="5" placeholder="学校 / 专业 / 时间 / 主修课程 / 荣誉"></textarea>
+                    </div>
+                </div>
+
+                <div class="optional-block" data-optional-block>
+                    <div class="optional-head">
+                        <label class="switch-line"><input th:field="*{showExperience}" type="checkbox" data-section-toggle> 显示工作 / 实习经历</label>
+                    </div>
+                    <div class="optional-body" data-section-body>
+                        <textarea th:field="*{experience}" rows="8" placeholder="公司 / 岗位 / 时间\n- 负责什么\n- 做出什么成果\n- 用数据说明"></textarea>
+                    </div>
+                </div>
+
+                <div class="optional-block" data-optional-block>
+                    <div class="optional-head">
+                        <label class="switch-line"><input th:field="*{showProjects}" type="checkbox" data-section-toggle> 显示项目经历</label>
+                    </div>
+                    <div class="optional-body" data-section-body>
+                        <textarea th:field="*{projects}" rows="8" placeholder="项目名称 / 技术栈 / 你的职责 / 成果"></textarea>
+                    </div>
+                </div>
+
+                <div class="optional-block" data-optional-block>
+                    <div class="optional-head">
+                        <label class="switch-line"><input th:field="*{showSkills}" type="checkbox" data-section-toggle> 显示技能</label>
+                    </div>
+                    <div class="optional-body" data-section-body>
+                        <textarea th:field="*{skills}" rows="5" placeholder="Java、Spring Boot、MySQL、Vue、Linux、Office 等"></textarea>
+                    </div>
+                </div>
+
+                <div class="optional-block" data-optional-block>
+                    <div class="optional-head">
+                        <label class="switch-line"><input th:field="*{showCertificates}" type="checkbox" data-section-toggle> 显示证书</label>
+                    </div>
+                    <div class="optional-body" data-section-body>
+                        <textarea th:field="*{certificates}" rows="4" placeholder="英语四级、计算机等级证书、普通话等"></textarea>
+                    </div>
+                </div>
+
+                <div class="optional-block" data-optional-block>
+                    <div class="optional-head">
+                        <label class="switch-line"><input th:field="*{showAwards}" type="checkbox" data-section-toggle> 显示荣誉</label>
+                    </div>
+                    <div class="optional-body" data-section-body>
+                        <textarea th:field="*{awards}" rows="4" placeholder="奖学金、竞赛奖项、优秀学生干部等"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
+<script th:src="@{/js/resume-edit.js}"></script>
+</body>
+</html>
