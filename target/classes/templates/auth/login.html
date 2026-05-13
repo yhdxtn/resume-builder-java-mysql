@@ -2,7 +2,12 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>登录 - ResumeForge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" th:href="@{/manifest.webmanifest}">
+    <link rel="icon" type="image/svg+xml" th:href="@{/icons/careercraft-logo.svg}">
+    <link rel="apple-touch-icon" th:href="@{/icons/icon-192.png}">
+    <title>登录 - 云简匠 CareerCraft</title>
     <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body class="auth-bg">
@@ -23,8 +28,7 @@
         <button class="btn full" type="submit">登录</button>
     </form>
     <div class="hint-box">
-        <strong>管理员账号：</strong> admin / admin123<br>
-        <strong>普通用户：</strong> 可自行注册
+        <strong>提示：</strong> 登录后可保存个人默认信息、编辑简历并下载 PDF。
     </div>
     <p class="center">没有账号？<a th:href="@{/register}">立即注册</a></p>
 </div>

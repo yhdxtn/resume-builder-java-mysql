@@ -22,6 +22,10 @@ public class ResumeProfile {
     private String fullName;
     @Column(length = 120)
     private String jobTitle;
+    @Column(length = 120)
+    private String graduationSchool;
+    @Column(length = 60)
+    private String educationLevel;
     @Column(length = 40)
     private String phone;
     @Column(length = 120)
@@ -43,6 +47,10 @@ public class ResumeProfile {
     private Boolean showLocation = true;
     @Column
     private Boolean showWebsite = true;
+    @Column
+    private Boolean showGraduationSchool = true;
+    @Column
+    private Boolean showEducationLevel = true;
 
     @Lob @Column(columnDefinition = "TEXT")
     private String summary;
@@ -94,6 +102,8 @@ public class ResumeProfile {
         if (showEmail == null) showEmail = true;
         if (showLocation == null) showLocation = true;
         if (showWebsite == null) showWebsite = true;
+        if (showGraduationSchool == null) showGraduationSchool = true;
+        if (showEducationLevel == null) showEducationLevel = true;
         if (showSummary == null) showSummary = true;
         if (showEducation == null) showEducation = true;
         if (showExperience == null) showExperience = true;
@@ -113,6 +123,10 @@ public class ResumeProfile {
     public void setFullName(String fullName) { this.fullName = fullName; }
     public String getJobTitle() { return jobTitle; }
     public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
+    public String getGraduationSchool() { return graduationSchool; }
+    public void setGraduationSchool(String graduationSchool) { this.graduationSchool = graduationSchool; }
+    public String getEducationLevel() { return educationLevel; }
+    public void setEducationLevel(String educationLevel) { this.educationLevel = educationLevel; }
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
     public String getEmail() { return email; }
@@ -133,6 +147,10 @@ public class ResumeProfile {
     public void setShowLocation(Boolean showLocation) { this.showLocation = showLocation; }
     public Boolean getShowWebsite() { return showWebsite; }
     public void setShowWebsite(Boolean showWebsite) { this.showWebsite = showWebsite; }
+    public Boolean getShowGraduationSchool() { return showGraduationSchool; }
+    public void setShowGraduationSchool(Boolean showGraduationSchool) { this.showGraduationSchool = showGraduationSchool; }
+    public Boolean getShowEducationLevel() { return showEducationLevel; }
+    public void setShowEducationLevel(Boolean showEducationLevel) { this.showEducationLevel = showEducationLevel; }
     public String getSummary() { return summary; }
     public void setSummary(String summary) { this.summary = summary; }
     public String getEducation() { return education; }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" th:href="@{/manifest.webmanifest}">
+    <link rel="icon" type="image/svg+xml" th:href="@{/icons/careercraft-logo.svg}">
+    <link rel="apple-touch-icon" th:href="@{/icons/icon-192.png}">
+    <title>我的简历 - 云简匠 CareerCraft</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav class="nav">
+    <a class="brand" th:href="@{/}"><img class="brand-logo" th:src="@{/icons/careercraft-logo.svg}" alt="云简匠 Logo"><span>云简匠 CareerCraft</span></a>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}">控制台</a>
+        <a th:href="@{/profile}">个人主页</a>
+        <a th:href="@{/resume/edit}">编辑简历</a>
+        <form th:action="@{/logout}" method="post" class="inline-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button class="link-button" type="submit">退出</button>
+        </form>
+    </div>
+</nav>
+<main class="dashboard-wrap resume-center-wrap">
+    <section class="welcome-card">
+        <div>
+            <div class="pill">简历中心</div>
+            <h1>我的简历与草稿</h1>
+            <p class="muted">保存到“我的简历”的版本会保留为历史记录；草稿保存当前编辑到一半的内容，方便下次继续。</p>
+        </div>
+        <div class="hero-actions">
+            <a class="btn ghost" th:href="@{/dashboard}">返回控制台</a>
+            <a class="btn" th:href="@{/resume/edit}">继续编辑草稿</a>
+        </div>
+    </section>
+
+    <section id="drafts" class="panel resume-library-panel">
+        <div class="panel-head">
+            <h2>草稿箱</h2>
+            <p>这里保存最近一次未正式归档的编辑内容。</p>
+        </div>
+        <div class="resume-record-list">
+            <div class="resume-record-row draft-row">
+                <div>
+                    <span class="record-badge draft">草稿</span>
+                    <strong th:text="${draft.fullName != null && !draft.fullName.isBlank() ? draft.fullName : '未命名草稿'}">未命名草稿</strong>
+                    <small>模板：<span th:text="${draft.template != null ? draft.template.name : '未选择'}">模板</span> · 更新时间：<span th:text="${draft.updatedAt != null ? #temporals.format(draft.updatedAt, 'yyyy-MM-dd HH:mm') : '-'}">-</span></small>
+                </div>
+                <div class="record-actions">
+                    <a class="btn small" th:href="@{/resume/edit}">继续编辑</a>
+                    <a class="btn ghost small" th:href="@{/resume/preview}">预览草稿</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="resumes" class="panel resume-library-panel">
+        <div class="panel-head">
+            <h2>我的简历</h2>
+            <p>每次点击“保存到我的简历”都会生成一条历史记录，方便回看和下载。</p>
+        </div>
+        <div class="empty-state" th:if="${#lists.isEmpty(records)}">
+            还没有保存过正式简历。进入编辑页后点击“保存到我的简历”即可生成记录。
+        </div>
+        <div class="resume-record-list" th:if="${!#lists.isEmpty(records)}">
+            <div class="resume-record-row" th:each="r : ${records}">
+                <div>
+                    <span class="record-badge">已保存</span>
+                    <strong th:text="${r.title}">我的简历</strong>
+                    <small>岗位：<span th:text="${r.jobTitle != null && !r.jobTitle.isBlank() ? r.jobTitle : '未填写'}">岗位</span> · 模板：<span th:text="${r.templateName}">模板</span> · 时间：<span th:text="${r.createdAt != null ? #temporals.format(r.createdAt, 'yyyy-MM-dd HH:mm') : '-'}">-</span></small>
+                </div>
+                <div class="record-actions">
+                    <a class="btn small" th:href="@{/resume/preview(recordId=${r.id})}">预览</a>
+                    <a class="btn ghost small" th:href="@{/resume/download(recordId=${r.id})}">下载 PDF</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="site-footer">
+    <div><strong>云简匠 CareerCraft</strong><span>Java + MySQL 简历生成系统</span></div>
+    <div><span>支持模板管理、头像裁切、草稿保存、历史简历记录和 PDF 导出。</span></div>
+</footer>
+</body>
+</html>

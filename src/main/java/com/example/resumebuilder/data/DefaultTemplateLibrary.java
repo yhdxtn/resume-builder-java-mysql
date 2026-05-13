@@ -14,6 +14,15 @@ public final class DefaultTemplateLibrary {
             case "finance" -> finance();
             case "card" -> card();
             case "classic" -> classic();
+            case "architect-line" -> architectLine();
+            case "midnight-banner" -> midnightBanner();
+            case "navy-ribbon" -> navyRibbon();
+            case "blue-axis" -> blueAxis();
+            case "violet-split" -> violetSplit();
+            case "amber-board" -> amberBoard();
+            case "quiet-gray" -> quietGray();
+            case "mint-profile" -> mintProfile();
+            case "deep-sidebar" -> deepSidebar();
             default -> modern();
         };
     }
@@ -34,13 +43,22 @@ public final class DefaultTemplateLibrary {
         .resume-section { margin-bottom: 10px; }
         .avatar-wrap { float: right; width: 76px; height: 76px; border-radius: 50%; overflow: hidden; border: 3px solid rgba(255,255,255,.85); background: rgba(255,255,255,.28); }
         .avatar { width: 100%; height: 100%; object-fit: cover; }
+        @media screen and (max-width: 820px) {
+            body { background: #fff; }
+            .page { width: 100%; min-height: auto; overflow: visible; }
+            table, tbody, tr, td { display: block; width: 100% !important; }
+            .main, .side, .left, .right, .col, .left-col, .right-col { width: 100% !important; min-height: auto !important; padding-left: 0 !important; padding-right: 0 !important; border-left: 0 !important; border-right: 0 !important; }
+            .avatar-wrap { float: none; margin: 0 0 12px 0; }
+            .text { font-size: 13px; line-height: 1.85; }
+            .section-title { font-size: 14px; margin-top: 14px; }
+        }
         """;
     }
 
     private static String wrap(String css, String body) {
         return """
         <!DOCTYPE html>
-        <html><head><meta charset="UTF-8"/><style>
+        <html><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><style>
         /*BASE*/
         /*CSS*/
         </style></head><body><div class="page">
@@ -281,6 +299,240 @@ public final class DefaultTemplateLibrary {
         {{skillsSection}}
         {{certificatesSection}}
         {{awardsSection}}
+        """);
+    }
+
+    private static String architectLine() {
+        return wrap("""
+        .page { padding: 30px 42px 34px; }
+        .top { min-height: 128px; text-align: center; padding-top: 6px; border-bottom: 2px solid #5d7183; }
+        h1 { font-size: 27px; color: #1f2937; letter-spacing: 4px; }
+        .job { margin-top: 8px; font-size: 12px; color: #475569; }
+        .contact { margin-top: 8px; font-size: 11px; color: #475569; }
+        .avatar-wrap { width: 92px; height: 92px; border-radius: 6px; border: 0; margin-top: 0; }
+        .section-title { color: #476278; border-bottom: 2px solid #5d7183; padding-bottom: 4px; margin-top: 17px; }
+        .resume-section { margin-bottom: 12px; }
+        .text { color: #444; }
+        """, """
+        <div class="top">{{avatarBlock}}<h1>{{fullName}}</h1><div class="job">{{jobTitle}}</div><div class="contact">{{contactLine}}</div></div>
+        {{educationSection}}
+        {{experienceSection}}
+        {{skillsSection}}
+        {{certificatesSection}}
+        {{awardsSection}}
+        {{summarySection}}
+        {{projectsSection}}
+        """);
+    }
+
+    private static String midnightBanner() {
+        return wrap("""
+        .page { padding: 18px 36px 34px; }
+        .banner { background: #171a2a; color: #fff; padding: 30px 46px; min-height: 150px; position: relative; }
+        .banner:after { content: ''; position: absolute; right: 0; top: 0; width: 55%; height: 70px; border-bottom: 1px solid rgba(245, 222, 179, .3); border-radius: 0 0 0 100%; }
+        h1 { font-size: 30px; color: #f6e4c2; letter-spacing: 3px; }
+        .job { margin-top: 14px; color: #e5e7eb; font-size: 12px; }
+        .contact { margin-top: 15px; color: #f6e4c2; font-size: 11px; }
+        .avatar-wrap { float: left; width: 96px; height: 96px; border-radius: 8px; border: 0; margin-right: 32px; }
+        .content { padding: 32px 42px; }
+        .section-title { color: #171a2a; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+        .section-title:before { content: '●'; color: #171a2a; margin-right: 10px; }
+        """, """
+        <div class="banner">{{avatarBlock}}<h1>{{fullName}}</h1><div class="job">{{jobTitle}}</div><div class="contact">{{contactDot}}</div></div>
+        <div class="content">
+        {{experienceSection}}
+        {{educationSection}}
+        {{projectsSection}}
+        {{skillsSection}}
+        {{certificatesSection}}
+        {{awardsSection}}
+        {{summarySection}}
+        </div>
+        """);
+    }
+
+    private static String navyRibbon() {
+        return wrap("""
+        .page { padding: 34px 36px; }
+        .tag { display: inline-block; background: #183f5b; color: #fff; padding: 4px 16px; font-size: 22px; letter-spacing: 1px; margin-bottom: 14px; }
+        .top { min-height: 150px; border-bottom: 1px solid #e5e7eb; }
+        h1 { font-size: 30px; color: #183f5b; margin-top: 4px; }
+        .job, .contact { margin-top: 9px; color: #334155; font-size: 12px; }
+        .avatar-wrap { width: 94px; height: 94px; border-radius: 8px; border: 0; margin-top: 28px; }
+        .section-title { background: #183f5b; color: #fff; display: inline-block; padding: 5px 22px; min-width: 96px; margin-top: 16px; position: relative; }
+        .section-title:after { content: ''; position: absolute; right: -18px; top: 0; border-top: 14px solid transparent; border-bottom: 14px solid transparent; border-left: 18px solid #183f5b; }
+        .resume-section { border-top: 2px solid #183f5b; padding-top: 10px; }
+        """, """
+        <div class="top">{{avatarBlock}}<div class="tag">PERSONAL RESUME</div><h1>{{fullName}}</h1><div class="job">{{jobTitle}}</div><div class="contact">{{contactLine}}</div></div>
+        {{educationSection}}
+        {{experienceSection}}
+        {{projectsSection}}
+        {{skillsSection}}
+        {{summarySection}}
+        {{certificatesSection}}
+        {{awardsSection}}
+        """);
+    }
+
+    private static String blueAxis() {
+        return wrap("""
+        .page { padding: 34px 42px; }
+        .top { min-height: 132px; position: relative; }
+        .avatar-wrap { float: left; width: 112px; height: 112px; border-radius: 0; border: 0; margin-right: 38px; background: #dbeafe; }
+        h1 { font-size: 31px; color: {{accentColor}}; padding-top: 16px; }
+        .job { margin-top: 12px; font-size: 12px; color: #334155; }
+        .contact { margin-top: 12px; color: #475569; font-size: 11px; }
+        .left-col { width: 23%; padding: 0 24px 0 0; }
+        .right-col { width: 77%; border-left: 1px dashed #cbd5e1; padding-left: 28px; }
+        .section-title { font-size: 18px; color: #333; margin: 20px 0 14px; }
+        .right-col .section-title { color: {{accentColor}}; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+        """, """
+        <div class="top">{{avatarBlock}}<h1>{{fullName}}</h1><div class="job">{{jobTitle}}</div><div class="contact">{{contactDot}}</div></div>
+        <table><tr><td class="left-col">
+        {{certificatesSection}}
+        {{skillsSection}}
+        {{awardsSection}}
+        </td><td class="right-col">
+        {{summarySection}}
+        {{experienceSection}}
+        {{educationSection}}
+        {{projectsSection}}
+        </td></tr></table>
+        """);
+    }
+
+    private static String violetSplit() {
+        return wrap("""
+        .head-table { height: 170px; }
+        .photo-cell { width: 28%; padding: 32px 0 0 38px; }
+        .name-cell { width: 72%; background: {{accentColor}}; color: #fff; padding: 35px 44px; border-bottom-left-radius: 42px; }
+        .avatar-wrap { float: none; width: 104px; height: 104px; border-radius: 18px 0 18px 0; border: 0; box-shadow: 16px -12px 0 rgba(79,70,229,.22); }
+        h1 { font-size: 32px; letter-spacing: 3px; }
+        .job { margin-top: 18px; font-size: 12px; color: #ede9fe; }
+        .contact { margin-top: 8px; color: #ede9fe; font-size: 11px; }
+        .content { padding: 28px 44px; }
+        .side { width: 28%; border-right: 1px dashed #cbd5e1; padding-right: 24px; }
+        .main { width: 72%; padding-left: 28px; }
+        .section-title { color: #333; font-size: 18px; }
+        .main .section-title { color: {{accentColor}}; }
+        .text { line-height: 1.9; }
+        """, """
+        <table class="head-table"><tr><td class="photo-cell">{{avatarBlock}}</td><td class="name-cell"><h1>{{fullName}}</h1><div class="job">{{jobTitle}}</div><div class="contact">{{contactDot}}</div></td></tr></table>
+        <div class="content"><table><tr><td class="side">
+        <div class="section-title">联系方式</div><div class="text">{{contactStack}}</div>
+        {{certificatesSection}}
+        {{skillsSection}}
+        {{awardsSection}}
+        </td><td class="main">
+        {{summarySection}}
+        {{experienceSection}}
+        {{projectsSection}}
+        {{educationSection}}
+        </td></tr></table></div>
+        """);
+    }
+
+    private static String amberBoard() {
+        return wrap("""
+        .top { min-height: 168px; padding: 30px 42px 0; }
+        .avatar-wrap { float: left; width: 118px; height: 118px; border-radius: 12px; border: 2px solid {{accentColor}}; margin-right: 46px; }
+        h1 { font-size: 31px; color: #1f2937; padding-top: 20px; }
+        .job { display: inline-block; margin-left: 16px; font-size: 12px; color: #334155; }
+        .summary-band { background: #fee382; padding: 18px 44px 20px 260px; min-height: 72px; }
+        .content { padding: 28px 40px; }
+        .side { width: 27%; padding-right: 24px; }
+        .main { width: 73%; padding-left: 24px; border-left: 1px solid #e5e7eb; }
+        .section-title { color: #333; font-size: 18px; }
+        .main .section-title:before { content: '●'; color: {{accentColor}}; margin-right: 8px; }
+        .side .section-title { color: #444; }
+        """, """
+        <div class="top">{{avatarBlock}}<h1>{{fullName}}<span class="job">{{jobTitle}}</span></h1></div>
+        <div class="summary-band">{{summarySection}}</div>
+        <div class="content"><table><tr><td class="side">
+        <div class="section-title">联系方式</div><div class="text">{{contactStack}}</div>
+        {{certificatesSection}}
+        {{awardsSection}}
+        </td><td class="main">
+        {{experienceSection}}
+        {{projectsSection}}
+        {{educationSection}}
+        {{skillsSection}}
+        </td></tr></table></div>
+        """);
+    }
+
+    private static String quietGray() {
+        return wrap("""
+        .page { padding: 34px 38px; }
+        .top { min-height: 142px; }
+        h1 { font-size: 29px; color: #31556d; }
+        .job { margin-top: 8px; color: #475569; font-size: 12px; }
+        .contact { margin-top: 14px; font-size: 11px; color: #475569; }
+        .avatar-wrap { width: 96px; height: 96px; border-radius: 8px; border: 0; }
+        .section-title { background: #e8edf0; color: #31556d; padding: 6px 10px; margin-top: 16px; }
+        .resume-section { margin-bottom: 14px; }
+        .text { color: #374151; }
+        """, """
+        <div class="top">{{avatarBlock}}<h1>{{fullName}}</h1><div class="job">{{jobTitle}}</div><div class="contact">{{contactLine}}</div></div>
+        {{educationSection}}
+        {{experienceSection}}
+        {{skillsSection}}
+        {{certificatesSection}}
+        {{summarySection}}
+        {{projectsSection}}
+        {{awardsSection}}
+        """);
+    }
+
+    private static String mintProfile() {
+        return wrap("""
+        .page { padding: 34px 44px; }
+        .top { min-height: 132px; }
+        .avatar-wrap { float: left; width: 110px; height: 110px; border-radius: 0; border: 0; margin-right: 44px; }
+        h1 { font-size: 29px; color: {{accentColor}}; letter-spacing: 3px; }
+        .job { margin-top: 12px; font-size: 12px; color: #475569; }
+        .contact { margin-top: 12px; color: #475569; font-size: 11px; }
+        .section-title { color: {{accentColor}}; background: #eefafa; border-left: 4px solid {{accentColor}}; padding: 6px 10px; }
+        .resume-section { margin-top: 18px; }
+        .text { line-height: 1.9; }
+        """, """
+        <div class="top">{{avatarBlock}}<h1>{{fullName}}</h1><div class="job">{{jobTitle}}</div><div class="contact">{{contactLine}}</div></div>
+        {{educationSection}}
+        {{experienceSection}}
+        {{certificatesSection}}
+        {{summarySection}}
+        {{skillsSection}}
+        {{projectsSection}}
+        {{awardsSection}}
+        """);
+    }
+
+    private static String deepSidebar() {
+        return wrap("""
+        .left { width: 30%; background: #254766; color: #fff; padding: 34px 24px; min-height: 297mm; }
+        .right { width: 70%; padding: 34px 34px; }
+        .avatar-wrap { float: none; width: 118px; height: 118px; border-radius: 0; border: 0; margin: 0 auto 28px; }
+        h1 { font-size: 30px; color: #254766; margin-bottom: 10px; }
+        .job { color: #254766; font-size: 13px; margin-bottom: 12px; }
+        .left .section-title { color: #fff; margin-top: 22px; }
+        .left .text { color: #fff; }
+        .contact { color: #fff; font-size: 12px; line-height: 2.1; margin: 18px 0; }
+        .right .section-title { color: #254766; border-bottom: 2px solid #254766; padding-bottom: 6px; }
+        .right .section-title:before { content: '◎'; margin-right: 8px; color: #254766; }
+        .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 22px; font-size: 12px; color: #3f5f7c; margin-bottom: 20px; }
+        """, """
+        <table><tr><td class="left">{{avatarBlock}}
+        <div class="contact">{{contactStack}}</div>
+        {{skillsSection}}
+        {{certificatesSection}}
+        {{awardsSection}}
+        </td><td class="right">
+        <h1>{{fullName}}</h1><div class="job">{{jobTitle}}</div><div class="meta">{{contactLine}}</div>
+        {{educationSection}}
+        {{experienceSection}}
+        {{projectsSection}}
+        {{summarySection}}
+        </td></tr></table>
         """);
     }
 }

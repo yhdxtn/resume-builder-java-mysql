@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" th:href="@{/manifest.webmanifest}">
+    <link rel="icon" type="image/svg+xml" th:href="@{/icons/careercraft-logo.svg}">
+    <link rel="apple-touch-icon" th:href="@{/icons/icon-192.png}">
+    <title>用户管理 - 云简匠 CareerCraft</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav class="nav">
+    <a class="brand" th:href="@{/}"><img class="brand-logo" th:src="@{/icons/careercraft-logo.svg}" alt="云简匠 Logo"><span>云简匠 CareerCraft</span></a>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}">控制台</a>
+        <a th:href="@{/profile}">个人主页</a>
+        <a th:href="@{/admin/templates}">模板管理</a>
+        <form th:action="@{/logout}" method="post" class="inline-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button class="link-button" type="submit">退出</button>
+        </form>
+    </div>
+</nav>
+<main class="dashboard-wrap admin-user-wrap wide-admin-user-wrap">
+    <section class="welcome-card">
+        <div>
+            <div class="pill">后台管理</div>
+            <h1>用户与积分管理</h1>
+            <p class="muted">横向列表显示全部用户。普通用户注册默认获得 100 积分，管理员可修改积分、角色和登录状态。</p>
+        </div>
+        <div class="hero-actions">
+            <a class="btn ghost" th:href="@{/admin/templates}">管理模板</a>
+            <a class="btn" th:href="@{/dashboard}">返回控制台</a>
+        </div>
+    </section>
+
+    <div class="alert success" th:if="${success}" th:text="${success}"></div>
+    <div class="alert danger" th:if="${error}" th:text="${error}"></div>
+
+    <section class="stat-grid admin-user-stats">
+        <div class="stat-card"><span>用户总数</span><strong th:text="${totalUsers}">0</strong></div>
+        <div class="stat-card"><span>启用用户</span><strong th:text="${enabledCount}">0</strong></div>
+        <div class="stat-card"><span>平台总积分</span><strong th:text="${totalPoints}">0</strong></div>
+    </section>
+
+    <section class="panel admin-user-table-panel">
+        <div class="panel-head">
+            <h2>用户列表</h2>
+            <p>积分不能低于 0。禁用用户后，该用户将无法登录。</p>
+        </div>
+
+        <div class="admin-user-table-scroll">
+            <div class="admin-user-table">
+                <div class="admin-user-row admin-user-header">
+                    <div>用户</div>
+                    <div>联系方式</div>
+                    <div>学校 / 学历</div>
+                    <div>岗位 / 城市</div>
+                    <div>积分</div>
+                    <div>角色</div>
+                    <div>状态</div>
+                    <div>操作</div>
+                </div>
+
+                <form class="admin-user-row" th:each="u : ${users}" th:action="@{/admin/users/{id}/update(id=${u.id})}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <div class="user-cell">
+                        <div class="user-avatar-mini" th:classappend="${u.defaultAvatarPath == null} ? ' empty' : ''">
+                            <img th:if="${u.defaultAvatarPath != null}" th:src="@{${u.defaultAvatarPath}}" alt="头像">
+                            <span th:if="${u.defaultAvatarPath == null}" th:text="${#strings.substring(u.username,0,1)}">U</span>
+                        </div>
+                        <div>
+                            <strong th:text="${u.fullName != null && !u.fullName.isBlank() ? u.fullName : u.username}">用户名</strong>
+                            <small><span th:text="${u.username}">username</span> · <span th:text="${u.createdAt != null ? #temporals.format(u.createdAt, 'yyyy-MM-dd HH:mm') : '-'}">注册时间</span></small>
+                        </div>
+                    </div>
+
+                    <div class="table-muted">
+                        <b th:text="${u.contactEmail != null && !u.contactEmail.isBlank() ? u.contactEmail : '-'}">-</b>
+                        <span th:text="${u.phone != null && !u.phone.isBlank() ? u.phone : '-'}">-</span>
+                    </div>
+
+                    <div class="table-muted">
+                        <b th:text="${u.graduationSchool != null && !u.graduationSchool.isBlank() ? u.graduationSchool : '未填写'}">未填写</b>
+                        <span th:text="${u.educationLevel != null && !u.educationLevel.isBlank() ? u.educationLevel : '未填写'}">未填写</span>
+                    </div>
+
+                    <div class="table-muted">
+                        <b th:text="${u.jobTitle != null && !u.jobTitle.isBlank() ? u.jobTitle : '未填写'}">未填写</b>
+                        <span th:text="${u.location != null && !u.location.isBlank() ? u.location : '未填写'}">未填写</span>
+                    </div>
+
+                    <div class="points-inline">
+                        <input name="points" type="number" min="0" step="1" th:value="${u.points != null ? u.points : 0}">
+                    </div>
+
+                    <div class="role-inline">
+                        <select name="role">
+                            <option value="USER" th:selected="${u.role == 'USER'}">普通用户</option>
+                            <option value="ADMIN" th:selected="${u.role == 'ADMIN'}">管理员</option>
+                        </select>
+                    </div>
+
+                    <label class="check-line compact-check status-inline">
+                        <input name="enabled" type="checkbox" value="true" th:checked="${u.enabled}"> 允许登录
+                    </label>
+
+                    <div class="row-actions">
+                        <button class="btn small" type="submit" name="action" value="save">保存</button>
+                        <button class="btn ghost tiny" type="submit" name="action" value="plus100">+100</button>
+                        <button class="btn ghost tiny" type="submit" name="action" value="minus100">-100</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

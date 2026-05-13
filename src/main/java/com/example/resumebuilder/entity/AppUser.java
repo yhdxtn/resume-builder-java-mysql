@@ -25,6 +25,33 @@ public class AppUser {
     @Column(length = 80)
     private String fullName;
 
+    @Column(length = 80)
+    private String jobTitle;
+
+    @Column(length = 120)
+    private String graduationSchool;
+
+    @Column(length = 60)
+    private String educationLevel;
+
+    @Column(length = 40)
+    private String phone;
+
+    @Column(length = 120)
+    private String contactEmail;
+
+    @Column(length = 80)
+    private String location;
+
+    @Column(length = 160)
+    private String website;
+
+    @Column(length = 200)
+    private String defaultAvatarPath;
+
+    @Column(nullable = false)
+    private Integer points = 100;
+
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public Long getId() { return id; }
@@ -39,6 +66,24 @@ public class AppUser {
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
+    public String getJobTitle() { return jobTitle; }
+    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
+    public String getGraduationSchool() { return graduationSchool; }
+    public void setGraduationSchool(String graduationSchool) { this.graduationSchool = graduationSchool; }
+    public String getEducationLevel() { return educationLevel; }
+    public void setEducationLevel(String educationLevel) { this.educationLevel = educationLevel; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public String getContactEmail() { return contactEmail; }
+    public void setContactEmail(String contactEmail) { this.contactEmail = contactEmail; }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+    public String getWebsite() { return website; }
+    public void setWebsite(String website) { this.website = website; }
+    public String getDefaultAvatarPath() { return defaultAvatarPath; }
+    public void setDefaultAvatarPath(String defaultAvatarPath) { this.defaultAvatarPath = defaultAvatarPath; }
+    public Integer getPoints() { return points; }
+    public void setPoints(Integer points) { this.points = points; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

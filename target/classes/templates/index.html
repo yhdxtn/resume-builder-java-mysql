@@ -2,12 +2,17 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ResumeForge 简历生成系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" th:href="@{/manifest.webmanifest}">
+    <link rel="icon" type="image/svg+xml" th:href="@{/icons/careercraft-logo.svg}">
+    <link rel="apple-touch-icon" th:href="@{/icons/icon-192.png}">
+    <title>云简匠 CareerCraft 简历生成系统</title>
     <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
 <nav class="nav glass">
-    <div class="brand">ResumeForge</div>
+    <a class="brand" th:href="@{/}"><img class="brand-logo" th:src="@{/icons/careercraft-logo.svg}" alt="云简匠 Logo"><span>云简匠 CareerCraft</span></a>
     <div class="nav-links">
         <a href="#templates">模板</a>
         <a th:href="@{/login}">登录</a>
@@ -18,13 +23,13 @@
     <div class="hero-copy">
         <div class="pill">Java + MySQL · PDF Export · Admin Templates</div>
         <h1>在线编辑简历，选择模板，一键导出 PDF</h1>
-        <p>支持登录后编辑、后台定期更新模板、10 个默认模板、简历预览与 PDF 下载。适合毕业设计、课程设计和企业内部简历库改造。</p>
+        <p>支持登录后编辑、后台定期更新模板、19 个默认模板、简历预览与 PDF 下载。适合毕业设计、课程设计和企业内部简历库改造。</p>
         <div class="hero-actions">
-            <a class="btn" th:href="@{/register}">开始制作</a>
+            <a class="btn" th:href="@{/register}">免费开始制作</a>
             <a class="btn ghost" th:href="@{/login}">已有账号登录</a>
         </div>
     </div>
-    <div class="hero-card">
+    <div class="hero-card hero-card-rich">
         <div class="mock-toolbar"><span></span><span></span><span></span></div>
         <div class="resume-mini">
             <div class="mini-head"></div>
@@ -35,20 +40,36 @@
             <div class="mini-line w70"></div>
             <div class="mini-line w85"></div>
         </div>
+        <div class="hero-card-caption">
+            <strong>3 步生成职业简历</strong>
+            <span>选模板 → 填内容 → 导出 PDF</span>
+            <div class="hero-card-tags"><em>实时预览</em><em>草稿保存</em><em>后台模板</em></div>
+        </div>
     </div>
 </section>
 <section id="templates" class="section-wrap">
     <div class="section-head">
-        <h2>默认 10 个模板</h2>
-        <p>管理员可在后台新增、修改、停用模板。模板 HTML 中支持占位符，例如 {{fullName}}、{{experience}}。</p>
+        <h2>选择模板，直接开始编辑</h2>
+        <p>点击任意模板缩略图即可进入编辑页。登录后左侧填写内容，右侧实时预览简历效果，并可保存导出 PDF。</p>
     </div>
-    <div class="template-grid">
-        <div class="template-card" th:each="tpl : ${templates}">
-            <div class="template-color" th:style="'background:' + ${tpl.accentColor}"></div>
-            <h3 th:text="${tpl.name}">模板名称</h3>
-            <p th:text="${tpl.description}">模板说明</p>
-        </div>
+    <div class="template-preview-grid">
+        <a class="template-card preview-card template-link-card" th:each="tpl : ${templates}" th:href="@{/resume/edit(templateId=${tpl.id})}" title="点击使用此模板">
+            <div class="tpl-shot">
+                <iframe class="tpl-preview-frame" sandbox loading="lazy" th:attr="srcdoc=${templatePreviews[tpl.id]}"></iframe>
+            </div>
+            <div class="tpl-info loose">
+                <span class="dot" th:style="'background:' + ${tpl.accentColor}"></span>
+                <div>
+                    <h3 th:text="${tpl.name}">模板名称</h3>
+                    <p th:text="${tpl.description}">模板说明</p>
+                </div>
+            </div>
+        </a>
     </div>
 </section>
+<footer class="site-footer home-footer">
+    <div><strong>云简匠 CareerCraft</strong><span>在线简历生成与模板管理系统</span></div>
+    <div><span>技术栈：Java 17 · Spring Boot · MySQL · PDF Export</span><span>功能：模板库、草稿箱、我的简历、头像裁切、积分管理</span></div>
+</footer>
 </body>
 </html>

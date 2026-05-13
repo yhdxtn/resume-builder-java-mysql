@@ -47,6 +47,10 @@ public class AuthController {
         user.setFullName(form.getFullName());
         user.setPassword(passwordEncoder.encode(form.getPassword()));
         user.setRole("USER");
+        user.setPoints(100);
+        if (username.contains("@")) {
+            user.setContactEmail(username);
+        }
         userRepository.save(user);
         model.addAttribute("registered", true);
         return "auth/login";

@@ -3,24 +3,31 @@ package com.example.resumebuilder.controller;
 import com.example.resumebuilder.dto.TemplateForm;
 import com.example.resumebuilder.entity.ResumeTemplate;
 import com.example.resumebuilder.repository.TemplateRepository;
+import com.example.resumebuilder.service.TemplateRenderService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin/templates")
 public class AdminTemplateController {
     private final TemplateRepository templateRepository;
+    private final TemplateRenderService renderService;
 
-    public AdminTemplateController(TemplateRepository templateRepository) {
+    public AdminTemplateController(TemplateRepository templateRepository, TemplateRenderService renderService) {
         this.templateRepository = templateRepository;
+        this.renderService = renderService;
     }
 
     @GetMapping
     public String list(Model model) {
-        model.addAttribute("templates", templateRepository.findAllByOrderByIdAsc());
+        List<ResumeTemplate> templates = templateRepository.findAllByOrderByIdAsc();
+        model.addAttribute("templates", templates);
+        model.addAttribute("templatePreviews", renderService.renderMiniPreviewMap(templates));
         return "admin/templates/list";
     }
 
@@ -54,6 +61,7 @@ public class AdminTemplateController {
         ResumeTemplate t = templateRepository.findById(id).orElseThrow();
         model.addAttribute("form", toForm(t));
         model.addAttribute("mode", "edit");
+        model.addAttribute("previewHtml", renderService.renderMiniPreview(t));
         return "admin/templates/form";
     }
 
@@ -117,14 +125,17 @@ public class AdminTemplateController {
         .title { font-weight: 800; color: {{accentColor}}; border-bottom: 2px solid {{accentColor}}; padding-bottom: 5px; }
         .text { margin-top: 8px; font-size: 12px; line-height: 1.8; }
         </style></head><body><div class="page">
+        {{avatarBlock}}
         <h1>{{fullName}}</h1>
         <div class="accent">{{jobTitle}}</div>
-        <div class="text">{{phone}} | {{email}} | {{location}} | {{website}}</div>
-        <div class="section"><div class="title">个人优势</div><div class="text">{{summary}}</div></div>
-        <div class="section"><div class="title">教育背景</div><div class="text">{{education}}</div></div>
-        <div class="section"><div class="title">工作经历</div><div class="text">{{experience}}</div></div>
-        <div class="section"><div class="title">项目经历</div><div class="text">{{projects}}</div></div>
-        <div class="section"><div class="title">技能证书</div><div class="text">{{skills}}<br/>{{certificates}}<br/>{{awards}}</div></div>
+        <div class="text">{{contactLine}}</div>
+        {{summarySection}}
+        {{educationSection}}
+        {{experienceSection}}
+        {{projectsSection}}
+        {{skillsSection}}
+        {{certificatesSection}}
+        {{awardsSection}}
         </div></body></html>
         """;
     }

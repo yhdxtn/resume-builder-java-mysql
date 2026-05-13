@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" th:href="@{/manifest.webmanifest}">
+    <link rel="icon" type="image/svg+xml" th:href="@{/icons/careercraft-logo.svg}">
+    <link rel="apple-touch-icon" th:href="@{/icons/icon-192.png}">
+    <title>个人主页 - 云简匠 CareerCraft</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav class="nav">
+    <a class="brand" th:href="@{/}"><img class="brand-logo" th:src="@{/icons/careercraft-logo.svg}" alt="云简匠 Logo"><span>云简匠 CareerCraft</span></a>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}">控制台</a>
+        <a th:href="@{/resume/my}">我的简历</a>
+        <a th:href="@{/resume/edit}">编辑简历</a>
+        <a th:href="@{/resume/preview}">预览</a>
+        <form th:action="@{/logout}" method="post" class="inline-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button class="link-button" type="submit">退出</button>
+        </form>
+    </div>
+</nav>
+<main class="editor-wrap profile-wrap">
+    <section class="panel profile-panel">
+        <div class="panel-head">
+            <div>
+                <span class="pill">个人主页</span>
+                <h1>我的默认信息</h1>
+                <p>这里填写的是你的常用基本信息。之后进入简历编辑页时，姓名、岗位、毕业学校、学历、电话、邮箱、城市、主页和默认头像会自动带入。</p>
+            </div>
+            <div class="points-card small-points">
+                <span>当前积分</span>
+                <strong th:text="${user.points != null ? user.points : 100}">100</strong>
+            </div>
+        </div>
+
+        <div class="alert success" th:if="${success}" th:text="${success}"></div>
+        <div class="alert danger" th:if="${error}" th:text="${error}"></div>
+
+        <form th:action="@{/profile}" th:object="${form}" method="post" enctype="multipart/form-data" class="resume-form profile-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input id="defaultAvatarDataUri" type="hidden" th:field="*{defaultAvatarDataUri}">
+
+            <div class="form-section first-edit-section">
+                <div class="section-title-row">
+                    <h2>默认头像</h2>
+                    <span class="muted">上传后可裁切，简历里没有单独头像时会优先使用这里的头像。</span>
+                </div>
+                <div class="avatar-editor">
+                    <div class="avatar-preview" th:classappend="${user.defaultAvatarPath == null} ? ' empty' : ''">
+                        <img id="avatarPreview" th:if="${user.defaultAvatarPath != null}" th:src="@{${user.defaultAvatarPath}}" alt="默认头像">
+                        <span th:if="${user.defaultAvatarPath == null}">未上传</span>
+                    </div>
+                    <div class="avatar-actions">
+                        <label>上传默认头像
+                            <input id="avatarInput" name="avatarFile" type="file" accept="image/*">
+                        </label>
+                        <label class="check-line remove-line"><input th:field="*{removeDefaultAvatar}" type="checkbox"> 删除当前默认头像</label>
+                        <p class="muted">选择图片后会出现裁切窗口，可以放大缩小并裁成正方形头像。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title-row">
+                    <h2>基本信息</h2>
+                    <span class="muted">保存后会作为填写简历时的默认内容。</span>
+                </div>
+                <div class="form-grid">
+                    <label>姓名<input th:field="*{fullName}" placeholder="张三"></label>
+                    <label>默认求职岗位<input th:field="*{jobTitle}" placeholder="Java 开发工程师"></label>
+                    <label>毕业学校<input th:field="*{graduationSchool}" placeholder="文山学院"></label>
+                    <label>学历<input th:field="*{educationLevel}" placeholder="本科 / 专科 / 硕士"></label>
+                    <label>手机<input th:field="*{phone}" placeholder="13800000000"></label>
+                    <label>联系邮箱<input th:field="*{contactEmail}" placeholder="email@example.com"></label>
+                    <label>所在城市<input th:field="*{location}" placeholder="云南文山"></label>
+                    <label>个人主页 / GitHub<input th:field="*{website}" placeholder="github.com/xxx"></label>
+                </div>
+            </div>
+
+            <div class="hero-actions profile-actions">
+                <button class="btn" type="submit">保存个人主页</button>
+                <a class="btn ghost" th:href="@{/resume/edit}">去填写简历</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<div id="avatarCropModal" class="avatar-crop-modal" hidden>
+    <div class="crop-dialog">
+        <div class="crop-head">
+            <h3>裁切头像</h3>
+            <button id="cropCancel" type="button" class="link-button">取消</button>
+        </div>
+        <div class="crop-area"><img id="cropImage" alt="待裁切头像"></div>
+        <label class="crop-range">缩放<input id="cropZoom" type="range" min="1" max="3" step="0.05" value="1"></label>
+        <div class="crop-actions">
+            <button id="cropConfirm" type="button" class="btn">确认裁切</button>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/avatar-crop.js}"></script>
+</body>
+</html>

@@ -2,14 +2,20 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>编辑模板 - ResumeForge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" th:href="@{/manifest.webmanifest}">
+    <link rel="icon" type="image/svg+xml" th:href="@{/icons/careercraft-logo.svg}">
+    <link rel="apple-touch-icon" th:href="@{/icons/icon-192.png}">
+    <title>编辑模板 - 云简匠 CareerCraft</title>
     <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
 <nav class="nav">
-    <div class="brand">ResumeForge Admin</div>
+    <a class="brand" th:href="@{/dashboard}"><img class="brand-logo" th:src="@{/icons/careercraft-logo.svg}" alt="云简匠 Logo"><span>云简匠后台</span></a>
     <div class="nav-links">
         <a th:href="@{/admin/templates}">模板列表</a>
+        <a th:href="@{/admin/users}">用户管理</a>
         <a th:href="@{/dashboard}">控制台</a>
     </div>
 </nav>
@@ -41,6 +47,13 @@
 {{summarySection}} {{educationSection}} {{experienceSection}} {{projectsSection}} {{skillsSection}} {{certificatesSection}} {{awardsSection}}
 兼容旧占位符：{{phone}} {{email}} {{location}} {{website}} {{summary}} {{education}} {{experience}} {{projects}} {{skills}} {{certificates}} {{awards}}
                 </div>
+            </div>
+            <div class="form-section" th:if="${previewHtml != null}">
+                <h2>当前样式预览</h2>
+                <div class="tpl-shot form-preview-shot">
+                    <iframe class="tpl-preview-frame" sandbox loading="lazy" th:attr="srcdoc=${previewHtml}"></iframe>
+                </div>
+                <p class="muted">保存修改后返回模板列表，即可看到更新后的预览缩略图。</p>
             </div>
             <div class="form-section">
                 <h2>模板 HTML</h2>

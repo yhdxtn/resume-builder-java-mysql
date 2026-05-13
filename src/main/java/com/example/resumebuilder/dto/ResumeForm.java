@@ -4,16 +4,21 @@ public class ResumeForm {
     private Long templateId;
     private String fullName;
     private String jobTitle;
+    private String graduationSchool;
+    private String educationLevel;
     private String phone;
     private String email;
     private String location;
     private String website;
     private Boolean showAvatar = true;
     private Boolean removeAvatar = false;
+    private String previewAvatarDataUri;
     private Boolean showPhone = true;
     private Boolean showEmail = true;
     private Boolean showLocation = true;
     private Boolean showWebsite = true;
+    private Boolean showGraduationSchool = true;
+    private Boolean showEducationLevel = true;
     private String summary;
     private String education;
     private String experience;
@@ -35,6 +40,10 @@ public class ResumeForm {
     public void setFullName(String fullName) { this.fullName = fullName; }
     public String getJobTitle() { return jobTitle; }
     public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
+    public String getGraduationSchool() { return graduationSchool; }
+    public void setGraduationSchool(String graduationSchool) { this.graduationSchool = graduationSchool; }
+    public String getEducationLevel() { return educationLevel; }
+    public void setEducationLevel(String educationLevel) { this.educationLevel = educationLevel; }
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
     public String getEmail() { return email; }
@@ -47,6 +56,8 @@ public class ResumeForm {
     public void setShowAvatar(Boolean showAvatar) { this.showAvatar = showAvatar; }
     public Boolean getRemoveAvatar() { return removeAvatar; }
     public void setRemoveAvatar(Boolean removeAvatar) { this.removeAvatar = removeAvatar; }
+    public String getPreviewAvatarDataUri() { return previewAvatarDataUri; }
+    public void setPreviewAvatarDataUri(String previewAvatarDataUri) { this.previewAvatarDataUri = previewAvatarDataUri; }
     public Boolean getShowPhone() { return showPhone; }
     public void setShowPhone(Boolean showPhone) { this.showPhone = showPhone; }
     public Boolean getShowEmail() { return showEmail; }
@@ -55,6 +66,10 @@ public class ResumeForm {
     public void setShowLocation(Boolean showLocation) { this.showLocation = showLocation; }
     public Boolean getShowWebsite() { return showWebsite; }
     public void setShowWebsite(Boolean showWebsite) { this.showWebsite = showWebsite; }
+    public Boolean getShowGraduationSchool() { return showGraduationSchool; }
+    public void setShowGraduationSchool(Boolean showGraduationSchool) { this.showGraduationSchool = showGraduationSchool; }
+    public Boolean getShowEducationLevel() { return showEducationLevel; }
+    public void setShowEducationLevel(Boolean showEducationLevel) { this.showEducationLevel = showEducationLevel; }
     public String getSummary() { return summary; }
     public void setSummary(String summary) { this.summary = summary; }
     public String getEducation() { return education; }
