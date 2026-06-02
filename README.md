@@ -20,11 +20,11 @@
 - 模板支持占位符替换，便于后期定期更新模板
 
 ## 页面展示
-### 主页
+## 主页
 <img width="1733" height="981" alt="image" src="https://github.com/user-attachments/assets/8ff9f44f-1e5c-48d6-92d1-7159fcf1f3f3" />
-### 管理员后台
+## 管理员后台
 <img width="1733" height="981" alt="image" src="https://github.com/user-attachments/assets/da2bb4a2-74a5-4285-90d5-9cacec4497e7" />
-### 模板
+## 模板
 <img width="1733" height="981" alt="image" src="https://github.com/user-attachments/assets/22c7a400-b072-436c-956e-14204180b0c0" />
 
 ## 默认模板名称
