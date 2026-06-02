@@ -1,4 +1,3 @@
-<img width="1733" height="981" alt="image" src="https://github.com/user-attachments/assets/2272a372-35dc-4505-bf66-d77491f8cb05" /># 云简匠 CareerCraft 简历生成网站
 
 一个基于 **Java 17 + Spring Boot + Thymeleaf + MySQL** 的在线简历生成系统。
 
